@@ -1,4 +1,3 @@
-const http = require('http');
 const express = require('express');
 var dotenv = require('dotenv').config();
 var cors = require('cors')
@@ -10,7 +9,6 @@ const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET
 const PORT = 4000
 const AccessPath = "https://github.com/login/oauth/access_token"
-
 
 var app = express();
 
@@ -248,11 +246,8 @@ app.patch('/updateIssue', async function(req,res){
     }
 })
 
-const server = http.createServer(app);
 
-server.listen(PORT,() => {
+app.listen(PORT,() => {
     console.log(
    `The Server is running at 4000`);
 });
-
-module.exports = app;
