@@ -8,7 +8,7 @@ import { selectRepo } from '../redux/reducers/filterSlice'
 import Navbar from '../components/Navbar'
 import Content from '../components/Content'
 
-const serverUrl="https://github-explorer-server.vercel.app/"
+const serverUrl="https://github-explorer-server.vercel.app"
 const CLIENT_ID= "5cc77c808ff05db1e21a"
 
 const Login = () => {

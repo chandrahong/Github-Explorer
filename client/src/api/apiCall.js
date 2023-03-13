@@ -1,6 +1,6 @@
 
 const accessToken = localStorage.getItem("accessToken");
-const serverUrl = 'https://github-explorer-server.vercel.app/'
+const serverUrl = 'https://github-explorer-server.vercel.app'
 
 export const getUserData = async function (accessToken){
   console.log(accessToken);
