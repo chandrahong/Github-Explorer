@@ -1,0 +1,105 @@
+.issue-background{
+    top:0;
+}
+
+.issue-labels{
+    width: 50%;
+}
+
+.state-select{
+    margin-bottom: 10px;
+}
+.state-label{
+    font-weight: 500;
+}
+.issue-container{
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.issue-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 10%;
+
+}
+
+.issue-label{
+    font-size: 24px;
+    display: flex;
+    margin-left: 20px;
+    font-weight: 500;
+}
+
+.form-label{
+    font-weight: 500;
+}
+
+.issue-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 85%;
+}
+.input-area{
+    width:100%;
+    height: 100%;
+}
+
+.issue-title{
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+    margin-bottom: 10px;
+}
+
+.issue-title > label{
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.issue-title > input{
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid black;
+    font-family: Georgia, Times, Times New Roman, serif;
+    font-size: 18px;
+}
+
+.text-area{
+    display: flex;
+    flex-direction: column;
+    margin: 0 20px;
+    height: 100%;
+    margin-bottom: 10px;
+}
+
+.text-area > label{
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.text-area > textarea{
+    font-family: Georgia, Times, Times New Roman, serif;
+    font-size: 18px;
+    height: 65%;
+    border-radius: 5px;
+}
+
+
+.modal-footer{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 5%;
+}

@@ -1,0 +1,106 @@
+import React, {Fragment, useState} from 'react'
+import {useNavigate} from 'react-router-dom'
+import {AiFillGithub} from 'react-icons/ai'
+import '../css/Navbar.css'
+import {AiOutlineCloseCircle} from 'react-icons/ai'
+import {HiSearch} from 'react-icons/hi'
+import { useSelector } from 'react-redux'
+import { SelectUser } from '../redux/reducers/userSlice'
+
+
+const Navbar = () => {
+  const userdata = useSelector(SelectUser);
+  const [rerender, setRerender] = useState(false)
+  const [profilemenu, setProfileMenu] = useState(false)
+  const [query, setQuery] = useState('')
+  const history = useNavigate()
+
+  function handleHover(){
+    setProfileMenu(true)
+  }
+
+  function handleLeave(){
+    setProfileMenu(false)
+  }
+
+  function handleLogout(){
+    localStorage.removeItem("accessToken");
+    setRerender(!rerender)
+    history("/")
+    window.location.reload();
+  }
+
+  function handleProfile(event){
+    event.preventDefault();
+    window.open(userdata.html_url);
+  }
+  
+  function handleRepo(event){
+    event.preventDefault();
+    window.open(userdata.html_url+"?tab=repositories");
+  }
+
+  const handleHome = () =>{
+    history('/Home');
+    window.location.reload();
+  }
+
+  const handleSubmit = (event) =>{
+    event.preventDefault();
+    window.location.href = `/search/?q=${query}`;
+  }
+  return (
+    <Fragment>
+        <div className="navbar">
+            <AiFillGithub id="github-icons" onClick={() => handleHome()}/>
+            <div className="nav">
+              <div className="nav-content">
+                <form className='form-search' action={`/search/?q=${query}`} method="GET" onSubmit={handleSubmit}>
+                  <input id="search-box"type="text" placeholder="Search or jump to..." onChange={(e) => setQuery(e.target.value)}/>
+                  <button type="submit" className="search-btn"><HiSearch  id="search-hi"/></button>
+                </form>
+              </div>
+              <div className="nav-create">
+                  
+
+              </div>
+              {userdata &&
+                <Fragment>
+                  <div className="nav-right">
+                    <img 
+                      id="avatar" 
+                      src={userdata?.avatar_url} 
+                      alt="avatar"
+                      onMouseEnter={handleHover}
+                      />
+                    {profilemenu && 
+                        <div className="profile-container" onMouseLeave={handleLeave}>
+                          <div id="profile" className="profile-content">
+                            <AiOutlineCloseCircle id="close" onClick={()=> setProfileMenu(false)}/>
+                            <h1>Signed in as </h1>
+                            <div className="userdata">
+                              <img 
+                                className="avatar-popup"
+                                src={userdata?.avatar_url} 
+                                alt="avatar"
+                                onMouseEnter={handleHover}
+                              />
+                              <a>{userdata?.login}</a>
+                            </div>
+                         
+                          </div>
+                          <div className="profile-content" onClick={handleProfile}><a>Your Profile</a></div>
+                          <div className='profile-content' onClick={handleRepo}><a>Your Repositories</a></div>
+                          <div className="profile-content" onClick={handleLogout}><a>Sign Out</a></div>
+                        </div>
+                    }
+                  </div>
+                </Fragment>
+              }
+            </div>
+        </div>
+    </Fragment>
+  )
+}
+
+export default Navbar
