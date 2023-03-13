@@ -251,3 +251,5 @@ app.listen(PORT,() => {
     console.log(
    `The Server is running at 4000`);
 });
+
+module.exports = app;
