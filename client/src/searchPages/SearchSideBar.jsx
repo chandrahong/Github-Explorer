@@ -21,7 +21,7 @@ const SearchSideBar = () => {
   }
 
   return (
-    <div className="container">
+    <div className="left-side-container">
         <a className="content" id={labelHover == "ALL"? 'selected' : 'unselected'}onClick={() => handleFilter(['ALL'])}> ALL </a>
         {labelNames && labelNames.map((key) => {
             return <a key={key.label} className="content" id={labelHover == key.label ? 'selected' : 'unselected'} onClick={() => handleFilter(key.value)}>{key.label}</a>
