@@ -10,6 +10,7 @@ import { set_repo } from '../redux/reducers/userSlice'
 import { fetchRepositories, getUserData, SearchIssues } from '../api/apiCall'
 import { selectFilter, select_filter } from '../redux/reducers/filterSlice'
 import {SelectSearchUpdatedBool, set_issue} from '../redux/reducers/issueSlice'
+import '../css/SearchIssues.css'
 
 const Search = () => {
     const {labelName} = useParams();
@@ -77,9 +78,11 @@ const Search = () => {
       },[accessToken, username, labelName])
 
   return (
-    <Fragment>
+    <Fragment >
+      <div className='Search-Page'>
         <Navbar />
         <SearchContent />
+      </div>
     </Fragment>
   )
 }

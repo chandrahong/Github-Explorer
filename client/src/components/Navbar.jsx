@@ -1,17 +1,24 @@
 import React, {Fragment, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
-import {AiFillGithub} from 'react-icons/ai'
-import '../css/Navbar.css'
-import {AiOutlineCloseCircle} from 'react-icons/ai'
-import {HiSearch} from 'react-icons/hi'
 import { useSelector } from 'react-redux'
 import { SelectUser } from '../redux/reducers/userSlice'
+import LeftSideBar from './LeftSideBar'
+import {AiOutlineCloseCircle} from 'react-icons/ai'
+import {AiOutlineMenu} from 'react-icons/ai'
+import {HiSearch} from 'react-icons/hi'
+import {AiFillGithub} from 'react-icons/ai'
+import {FaTimes} from 'react-icons/fa'
+import {TiThMenu} from 'react-icons/ti'
+import '../css/Navbar.css'
 
 
 const Navbar = () => {
   const userdata = useSelector(SelectUser);
   const [rerender, setRerender] = useState(false)
   const [profilemenu, setProfileMenu] = useState(false)
+  const [filtermenu, setFilterMenu] = useState(false)
+
+  const avatar_url = localStorage.getItem("avatar_url")
   const [query, setQuery] = useState('')
   const history = useNavigate()
 
@@ -49,10 +56,36 @@ const Navbar = () => {
     event.preventDefault();
     window.location.href = `/search/?q=${query}`;
   }
+  
+  function handleMenu(){
+    setFilterMenu(!filtermenu)
+  }
+
+  function handleMenuLeave(){
+    setFilterMenu(false)
+  }
   return (
     <Fragment>
         <div className="navbar">
-            <AiFillGithub id="github-icons" onClick={() => handleHome()}/>
+            <div className='mobile-navbar'>
+              {filtermenu ? <FaTimes id="times-icon" onClick={() => setFilterMenu(false)}/> : <TiThMenu id="menu-icons" onClick={handleMenu} />}
+              {filtermenu &&
+                <div className="filter-container" onMouseLeave={handleMenuLeave}>
+                  <div className="search-filter">
+                    <form className='form-search' action={`/search/?q=${query}`} method="GET" onSubmit={handleSubmit}>
+                      <input id="search-box"type="text" placeholder="Search or jump to..." onChange={(e) => setQuery(e.target.value)}/>
+                      <button type="submit" className="search-btn"><HiSearch  id="search-hi"/></button>
+                    </form>
+                    
+                  </div>
+                  <LeftSideBar />
+                </div>
+              }
+            </div>
+            <div className="github-nav">
+              <AiFillGithub id="github-icons" onClick={() => handleHome()}/>
+            </div>
+
             <div className="nav">
               <div className="nav-content">
                 <form className='form-search' action={`/search/?q=${query}`} method="GET" onSubmit={handleSubmit}>
@@ -60,16 +93,13 @@ const Navbar = () => {
                   <button type="submit" className="search-btn"><HiSearch  id="search-hi"/></button>
                 </form>
               </div>
-              <div className="nav-create">
-                  
-
-              </div>
+          
               {userdata &&
                 <Fragment>
                   <div className="nav-right">
                     <img 
                       id="avatar" 
-                      src={userdata?.avatar_url} 
+                      src={avatar_url} 
                       alt="avatar"
                       onMouseEnter={handleHover}
                       />

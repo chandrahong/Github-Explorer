@@ -76,8 +76,8 @@
     width: 98%;
     margin-bottom: 5px;
     margin-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
 }
 
 .card-container{
@@ -224,4 +224,71 @@
     justify-content: center;
     align-items: center;
     height: 100%;
+}
+
+.fetch-more{
+    margin-left: 20px;
+    padding-bottom: 10px;
+    padding-top : 10px;
+}
+
+@media screen and (max-width:960px){
+    .content-container{
+        margin-left :8px !important;
+        height: 100%;
+    }
+
+    .repo-section{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #link-format{
+        width:60px;
+    }
+    #id-format{
+        width:50px;
+    }
+
+    #labels-format{
+        width: 80px;
+    }
+
+    .repo-content::-webkit-scrollbar{
+        width: 0.5em;
+    }
+
+    .card{
+        margin-left:5px!important;
+    }
+   
+    .card-container{
+        margin-left:5px!important;
+        margin-right: 5px !important;
+    }
+
+    #edit-btn:hover{
+        transform:scale(1.0)
+    }
+
+    #delete-btn:hover{
+        transform:scale(1.0)
+    }
+
+    #github-btn:hover{
+        transform:scale(1.0)
+    }
+
+    .card-container{
+        border-bottom: 1px solid black;
+        border-radius: 0px;
+    }
+
+    .card-container:hover{
+        background-color: white !important;
+        color: black !important;
+        cursor: pointer;
+    }
 }

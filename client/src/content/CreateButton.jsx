@@ -7,6 +7,9 @@ import '../css/Createbutton.css'
 import { useSelector } from 'react-redux';
 import { SelectRepo, SelectUser } from '../redux/reducers/userSlice';
 import { SendIssues } from '../api/apiCall';
+import {toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 function CreateButton() {
@@ -17,6 +20,28 @@ function CreateButton() {
   const [bodylabel, setBodyLabel] = useState('');
   const [selectedrepo, setSelectedRepo] = useState(null)
   const [label, setLabel] = useState(null);
+
+  //React-Toastify
+  const notify = () => {
+    toast.warn('The title is required ! 必填')
+  }
+
+  const bodynotify = () => {
+    toast.warn('Body needs to contain more than 30 words !')
+  }
+
+  const creatednotify = () =>{
+    toast.success('Issue Created!', {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
+  }
 
   const handleClose = () => {
     setShowModal(false)
@@ -34,11 +59,27 @@ function CreateButton() {
       body: bodylabel,
       labels: label.value,
     };
-    SendIssues(dataissues)
+
+    if(dataissues.title.length === 0){
+      notify()
+    }
+
+    if(dataissues.body.length <= 30){
+      bodynotify()
+    }
+
+    if(titlelabel && bodylabel.length >= 30){
+      SendIssues(dataissues)
       .then((data) => {
         console.log(data);
-        window.location.reload();
+        setShowModal(false);
+        creatednotify()
+        setTimeout(() => {
+          window.location.reload()
+        },2000)
+      
       })
+    }
   };
 
   const handleRepo= (selectedOption) => {
@@ -55,6 +96,7 @@ function CreateButton() {
         Create Issue
       </Button>
       <div className="modal-background">
+        
         <Modal className="modal-container" show={showModal} onHide={handleClose}>
           <Modal.Header className="bg-dark p-3">
             <Modal.Title className="header-label">Create Issue</Modal.Title>
@@ -68,7 +110,7 @@ function CreateButton() {
                 <Form.Group className="repo-select">
                   <Modal.Title className="repo-label">Select a Repositories</Modal.Title>
                   <Select 
-                  options={repositories.map(repo => ({value: repo.html_url, label: repo.name}))} 
+                  options={repositories?.map(repo => ({value: repo.html_url, label: repo.name}))} 
                   onChange={handleRepo}
                   className="create-repo"
                   autoFocus 
@@ -111,6 +153,8 @@ function CreateButton() {
               Create Issue
             </Button>
           </Modal.Footer>
+
+          
         </Modal>
       </div>
     </Fragment>

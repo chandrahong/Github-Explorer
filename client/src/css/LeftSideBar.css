@@ -5,11 +5,9 @@
     left: 0;
     margin-bottom: 20px;
 }
-.container{
+.left-side-container{
     display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
+    flex-direction: column; 
 }
 
 .filter{
@@ -49,4 +47,18 @@
 #unselected:hover{
     background-color: black;
     color: white;
+}
+
+@media screen and (max-width:960px){
+    .content{
+        width: 97%;
+        margin-left: 3px;
+    }
+    
+    .container{
+        height: 100svh;
+        width: 100svw;
+        overflow-x:hidden;
+    }
+    
 }

@@ -51,12 +51,12 @@ const Content = () => {
     
     <div className="repo">
       <div className="sidebar">
-      {repositories &&
+      {repositories ?
         <Fragment>
           <div className="create-div">
               {paramsRepo !== null? 
                 <Select 
-                  options={repositories.map(repo => ({value: repo.html_url, label: repo.name}))}
+                  options={repositories && repositories.map(repo => ({value: repo.html_url, label: repo.name}))}
                   value={passingrepo}
                   placeholder="Select a Repositories"
                   defaultValue={{label: passingrepo.label, value: passingrepo.value}}
@@ -66,7 +66,7 @@ const Content = () => {
                 :
                 <Select 
                   placeholder= "Select a Repositories"
-                  options={repositories.map(repo => ({value: repo.html_url, label: repo.name}))}
+                  options={repositories && repositories.map(repo => ({value: repo.html_url, label: repo.name}))}
                   id="repo-select"
                   onChange={handleSelectRepo}
                 />
@@ -75,11 +75,21 @@ const Content = () => {
             <CreateButton />
 
           </div>
-          <div className="filter">
-            <LeftSideBar />
-          </div>
         </Fragment>
+
+        : (
+          <Fragment>
+            <div className="default-div">
+              <Select id="repo-select" className='default-select' placeholder="Select a Repositories" />
+              <CreateButton />
+            </div>
+          </Fragment>
+        )
       }
+
+            <div className="filter">
+              <LeftSideBar />
+            </div>
       </div>
 
       <div className="repo-container">

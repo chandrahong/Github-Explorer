@@ -13,6 +13,12 @@
     cursor: pointer;
 }
 
+.Toastify__toast{
+    z-index: 100;
+    color: white;
+    background: white;
+}
+
 .modal-background{
     opacity:0.5 !important;
     width: 100vw;
@@ -207,4 +213,30 @@
 .create-body:focus{
     padding-left: 10px;
     padding-top: 10px;
+}
+
+@media screen and (max-width:960px){
+    .modal-content{
+        width:410px;
+    }
+
+    .modal-backdrop{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100svw;
+        height: 100svh;
+        padding-bottom:7px;
+        padding-right: 7px;
+    }
+    
+    .modal-container{
+        width: 100svw;
+        height: 100svh;
+        
+    }
+    
+    .state-select{
+        margin-right: 20px;
+    }
 }

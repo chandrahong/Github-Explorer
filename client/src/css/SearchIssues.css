@@ -1,3 +1,9 @@
+.Search-Page{
+    width:100svw;
+    height: 100svh;
+    overflow-x: hidden;
+}
+
 .content-container{
     margin-left: 35px;
     border: 1px solid black;
@@ -210,4 +216,28 @@
 
 #delete-check:hover , #delete-times:hover{
     transform: scale(1.2);
+}
+
+@media screen and (max-width: 960px){
+   .Searchcontent{
+        display:flex;
+        flex-direction: column;
+        width: 200px;
+   }
+
+   .content-container{
+        width: 95svw;
+   }
+   
+   .repo-content{
+        overflow-x: hidden;
+   }
+
+   #search-repoName{
+        width: 60%;
+   }
+
+   #search-issue{
+        display:none;
+   }
 }

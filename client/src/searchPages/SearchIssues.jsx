@@ -1,4 +1,4 @@
-import React , {useState} from 'react'
+import React , {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import '../css/SearchIssues.css'
 import '../css/Loading.css'
@@ -11,14 +11,36 @@ import {GoLogoGithub} from 'react-icons/go'
 import { DeleteIssues } from '../api/apiCall.js';
 import EditIssue from '../content/EditIssue';
 import { useLocation } from 'react-router-dom';
+import {ToastContainer, toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+import { selectFilter } from '../redux/reducers/filterSlice';
 
 const SearchContent = () => {
     const location = useLocation();
     const query = new URLSearchParams(location.search).get('q');
+
+    //redux-selector
     const issue = useSelector(SelectIssue);
+    const label = useSelector(selectFilter)
     const showIssue = useSelector(SelectShowIssue);
+
+    //Others 
     const [deletePop, setDeletePop] = useState(false);
     const editType = "search"
+
+    //Notify when deleted
+    const deletednotify = () => {
+        toast.success('Issue Deleted!', {
+            position: "top-center",
+            autoClose: 1000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
+    }
 
     const dispatch = useDispatch();
 
@@ -48,14 +70,31 @@ const SearchContent = () => {
         DeleteIssues(delIssues)
           .then(data => {
             console.log(data);
-            window.location.reload();
-            window.location.reload();
+            deletednotify()
+            setTimeout(() => {
+                window.location.reload()
+            },2000)
+            ;
           })
     }
+
+    useEffect(()=>{
+        const myDiv = document.getElementById('containerDiv');
+        myDiv.scrollTop = 0;
+    },[label])
 
 
   return (
     <div className="content-container">
+        <ToastContainer
+            position= "top-right"
+            autoClose= {3000}
+            hideProgressBar ={false}
+            closeOnClick
+            pauseOnHover
+            draggable
+            theme = "dark"
+        ></ToastContainer>
         <div className="header">
             <div className="repo-section">
                 <h1 className="repo-name">Search Query : {query}</h1>
@@ -68,7 +107,7 @@ const SearchContent = () => {
                 <h1 id="search-label">Label</h1>
             </div>
         </div>
-        <div className="repo-content">
+        <div className="repo-content" id="containerDiv">
             {showIssue && 
             <div>
                  <EditIssue edit={editType}/> 
@@ -124,11 +163,11 @@ const SearchContent = () => {
                 )
             })
             :
-            ( 
                 <div className="loading-background">
                     <span className='loader'></span>
-                </div>
-            )
+                 </div>
+        
+            
         }
 
         </div>

@@ -8,7 +8,7 @@ body{
     top:0;
     padding-bottom:11px;
     border-bottom: 1px solid black;
-    height: 90vh;
+    height: 87vh;
     width: 100vw;
     background-color: white;
 }
@@ -50,4 +50,47 @@ body{
     background-color: black;
     color: white;
     
+}
+
+.default-select{
+    z-index: 0;
+}
+
+
+.default-div{
+    display:flex;
+    flex-direction: column;
+    width: 92%;
+    left: 0;
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width:960px){
+
+
+    .repo{
+        flex-direction: column;
+        height: 87svh;
+        border-bottom: none;
+    }
+
+    .filter{
+        display:none;
+    }
+
+    .repo-container{
+        width: 100svw;
+        height: 72svh;
+        margin: 0px;
+    }
+    
+    
+   .sidebar{
+        margin-left: 5px;
+        width: 100svw;
+        padding-bottom: 11px;
+        height: 100px;
+
+    }
+
 }

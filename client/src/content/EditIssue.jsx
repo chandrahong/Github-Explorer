@@ -7,10 +7,10 @@ import '../css/EditIssue.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { SelectClickedIssue, SelectShowIssue, show_issueClick, SelectLabelValue, set_updated, set_search_update} from '../redux/reducers/issueSlice';
 import { UpdateIssues } from '../api/apiCall';
+import {ToastContainer, toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 const EditIssue = (edit) => {
-    console.log("im")
-    console.log(edit)
     //redux selector
     const issue = useSelector(SelectClickedIssue);
     const showIssue = useSelector(SelectShowIssue);
@@ -26,6 +26,20 @@ const EditIssue = (edit) => {
     const [editBody, setEditBody] = useState('')
     const [editTitle, setEditTitle] = useState('')
     const choice = [{value : [labelValue[0]],label: labelValue[0]}]
+
+    //Notify when updated
+    const updatenotify = () => {
+      toast.success('Issue Updated !', {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+    }
 
     
     useEffect(() => {
@@ -52,6 +66,8 @@ const EditIssue = (edit) => {
         const repoChoosen = issue.repository_url.split('/')[5]
         const issueNumber = issue.number;
         let updateIssues;
+
+        //Different condition while updating
         if(selectedChoice.label){
           if(editTitle.length!== 0 && editBody.length!== 0){
             updateIssues = {
@@ -109,9 +125,11 @@ const EditIssue = (edit) => {
           dispatch(set_search_update(true))
         }
 
+        
         UpdateIssues(updateIssues, user, repoChoosen, issueNumber)
           .then(data => {
             console.log(data);
+            updatenotify();
             dispatch(show_issueClick(false));
           })
 

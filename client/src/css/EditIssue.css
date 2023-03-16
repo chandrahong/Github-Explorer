@@ -103,3 +103,9 @@
     width: 100%;
     height: 5%;
 }
+
+@media screen and (max-width:960px) {
+    .issue-labels{
+        width:90%;
+    }
+}

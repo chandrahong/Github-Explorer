@@ -1,7 +1,7 @@
 import React , { useEffect , useRef, useState, useCallback} from 'react'
 import labelNames from '../variables/Label'
 import { useDispatch, useSelector } from 'react-redux'
-import {selectFilter, selectRepo, select_filter} from '../redux/reducers/filterSlice'
+import {selectFilter, selectRepo, select_filter, select_parameters_url} from '../redux/reducers/filterSlice'
 import { SelectUser } from '../redux/reducers/userSlice'
 import '../css/LeftSideBar.css'
 import { SelectUpdateBool, set_issue } from '../redux/reducers/issueSlice'
@@ -30,9 +30,9 @@ const LeftSideBar = () => {
       parameters = "?user=" + user.login + "&repo=" + selectedRepo.label;
     }
     if(selectedRepo){
+      dispatch(select_parameters_url(parameters))
       getRepoIssues(parameters)
               .then(data => {
-                  console.log(data)
                   dispatch(set_issue(data))
           })
     }
@@ -46,8 +46,8 @@ const LeftSideBar = () => {
   }
 
   return (
-    <div className="container">
-        <a className="content" id={label == 'ALL' ? 'selected' : 'unselected'} onClick={() => handleFilter(['ALL'])}> ALL </a>
+    <div className="left-side-container">
+        <div className="content" id={label == 'ALL' ? 'selected' : 'unselected'} onClick={() => handleFilter(['ALL'])}> ALL </div>
         {labelNames && labelNames.map((key) => {
             return <a key={key.label} className="content" id={label == key.label ? 'selected' : 'unselected'} onClick={() => handleFilter(key.value)}>{key.label}</a>
         })}

@@ -1,6 +1,7 @@
 
 const accessToken = localStorage.getItem("accessToken");
-const serverUrl = 'https://github-explorer-server.vercel.app'
+const serverUrl = 'http://localhost:4000'
+const liveUrl = 'https://github-explorer-server.vercel.app'
 
 export const getUserData = async function (accessToken){
   console.log(accessToken);
@@ -32,11 +33,13 @@ export const fetchRepositories = async function(username, accessToken) {
 }
 
 export const getRepoIssues = async function(parameters,pageNumber) {
+  console.log(parameters);
+  console.log(pageNumber)
   let pageParameters;
-  if(pageNumber){
+  if(pageNumber && pageNumber > 1){
     pageParameters = `&page=${pageNumber}&per_page=10`
   } else {
-    pageParameters = '&per_page=10'
+    pageParameters = `&page=${1}&per_page=10`
   }
   const response = await fetch(serverUrl + '/getIssues' + parameters + pageParameters,{
     method: "GET",

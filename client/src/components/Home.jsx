@@ -9,6 +9,7 @@ import { set_user } from '../redux/reducers/userSlice'
 import { set_repo } from '../redux/reducers/userSlice'
 import { fetchRepositories, getUserData } from '../api/apiCall'
 import '../css/Loading.css'
+import '../css/Navbar.css'
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
@@ -46,7 +47,7 @@ const Home = () => {
 
   return (
     <Fragment>
-        <div>
+        <div className='Home-Page'>
           {loading && 
                 <div className="loading-background">
                     <span className='loader'></span>

@@ -6,6 +6,7 @@ export const filterSlice = createSlice({
         selectedFilter: null,
         selectedRepo : null,
         paramsRepo : null,
+        parameter : null,
     },
     reducers:{
         select_filter: (state, action) => {
@@ -17,12 +18,16 @@ export const filterSlice = createSlice({
         select_params_repo : (state, action) => {
             state.paramsRepo = action.payload;
         },
+        select_parameters_url : (state, action) => {
+            state.parameter = action.payload;
+        }
     }
 });
 
-export const {select_filter, select_repo, select_params_repo} = filterSlice.actions;
+export const {select_filter, select_repo, select_params_repo, select_parameters_url} = filterSlice.actions;
 export const selectFilter = (state) => state.filter.selectedFilter;
 export const selectRepo = (state) => state.filter.selectedRepo;
 export const selectparamsRepo = (state) => state.filter.paramsRepo;
+export const selectparamaterUrl = (state) => state.filter.parameter
 
 export default filterSlice.reducer;
