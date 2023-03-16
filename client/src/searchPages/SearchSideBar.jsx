@@ -22,10 +22,13 @@ const SearchSideBar = () => {
 
   return (
     <div className="left-side-container">
-        <a className="content" id={labelHover == "ALL"? 'selected' : 'unselected'}onClick={() => handleFilter(['ALL'])}> ALL </a>
+        <div className="content" id={labelHover == "ALL"? 'selected' : 'unselected'}onClick={() => handleFilter(['ALL'])}> ALL </div>
         {labelNames && labelNames.map((key) => {
-            return <a key={key.label} className="content" id={labelHover == key.label ? 'selected' : 'unselected'} onClick={() => handleFilter(key.value)}>{key.label}</a>
+            return <div key={key.label} className="content" id={labelHover == key.label ? 'selected' : 'unselected'} onClick={() => handleFilter(key.value)}>{key.label}</div>
+          
         })}
+        <div className="content" id={labelHover == 'ASC' ? 'selected' : 'unselected'} onClick={() => handleFilter(['ASC'])}> ASC</div>
+          <div className="content" id={labelHover == 'DESC' ? 'selected' : 'unselected'} onClick={() => handleFilter(['DESC'])}> DESC</div>
     </div>
   )
 };

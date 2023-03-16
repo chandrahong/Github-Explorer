@@ -84,10 +84,16 @@ app.get('/searchIssue', async function ( req, res){
         const label = req.query.label;
         const qparams = req.query.query;
         const author = req.query.author;
-        let url = `https://api.github.com/search/issues?q=${qparams}+author:${author}+type:issue+state:open`;
-
-        if(label !== "undefined" && label !=="ALL"){
+        let order = req.query.order;
+        let url;
+        if(order){
+            order = order.toLocaleLowerCase();
+            url = `https://api.github.com/search/issues?q=${qparams}+author:${author}+type:issue+state:open&sort=created&order=${order}`;
+        }
+        else if(label !== "undefined" && label !=="ALL"){
             url =`https://api.github.com/search/issues?q=${qparams}+author:${author}+label:${label}+type:issue+state:open`
+        }else{
+            url = `https://api.github.com/search/issues?q=${qparams}+author:${author}+type:issue+state:open`;
         }
         await fetch(url,{
             method: "GET",
@@ -161,20 +167,34 @@ app.get('/getIssues', async function(req, res) {
             })
         };
         if(repo && label){
-            if(label === "ALL"){
-                await fetch(`https://api.github.com/repos/${username}/${repo}/issues?page=${page}&per_page=${per_page}`,{
-                method: "GET",
-                headers:{
-                    "Authorization" : bearerToken,
-                    "Content-Type" : "application/json"
+            if(label === "ALL" || label === "ASC" || label === "DESC"){
+                if(label === "all"){
+                    await fetch(`https://api.github.com/repos/${username}/${repo}/issues?page=${page}&per_page=${per_page}`,{
+                        method: "GET",
+                        headers:{
+                            "Authorization" : bearerToken,
+                            "Content-Type" : "application/json"
+                        }
+                    }).then((response) => {
+                        return response.json();
+                    }).then((data) => {
+                        console.log(data)
+                        res.json((data));
+                    })
+                }else{
+                    await fetch(`https://api.github.com/repos/${username}/${repo}/issues?page=${page}&per_page=${per_page}&direction=${label}`,{
+                        method: "GET",
+                        headers:{
+                            "Authorization" : bearerToken,
+                            "Content-Type" : "application/json"
+                        }
+                    }).then((response) => {
+                        return response.json();
+                    }).then((data) => {
+                        console.log(data)
+                        res.json((data));
+                    })
                 }
-            }).then((response) => {
-                return response.json();
-            }).then((data) => {
-                console.log(data)
-                res.json((data));
-            })
-
             }else{
                 await fetch(`https://api.github.com/repos/${username}/${repo}/issues?labels=${label}&page=${page}&per_page=${per_page}`,{
                 method: "GET",

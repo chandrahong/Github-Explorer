@@ -116,7 +116,12 @@ export const SendIssues = async function (issuesData) {
 export const SearchIssues = async function(query, username , label) {
     let params;
     if(label !== null){
-      params = "?query=" + query + "&author=" + username + "&label=" + label;
+
+      if(label == "ASC" || label == "DESC"){
+        params = "?query=" + query + "&author=" + username + "&order=" + label
+      }else{
+        params = "?query=" + query + "&author=" + username + "&label=" + label
+      };
     } else {
       params = "?query=" + query + "&author=" + username;
     }

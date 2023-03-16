@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import '../css/SearchIssues.css'
 import '../css/Loading.css'
 import Card from 'react-bootstrap/Card';
-import {SelectShowIssue, set_issueClick, show_issueClick , set_labelValue, SelectIssue} from '../redux/reducers/issueSlice';
+import {SelectShowIssue, set_issueClick, show_issueClick , set_labelValue, SelectIssue, set_search_update} from '../redux/reducers/issueSlice';
 import {FiEdit} from 'react-icons/fi'
 import {AiOutlineDelete} from 'react-icons/ai'
 import {FaCheck, FaTimes} from 'react-icons/fa'
@@ -79,6 +79,10 @@ const SearchContent = () => {
     }
 
     useEffect(()=>{
+        dispatch(set_search_update(false))
+    },[issue])
+
+    useEffect(()=>{
         const myDiv = document.getElementById('containerDiv');
         myDiv.scrollTop = 0;
     },[label])
@@ -140,7 +144,7 @@ const SearchContent = () => {
                                     </div>
                             </Card.Body>
                             <Card.Footer>
-                                    <h1 onClick={()=>handleIssues(key)}>{key.labels.map(key => key.name)}</h1>
+                                    <h1 onClick={()=>handleIssues(key)}>{key?.labels.map(key => key.name)}</h1>
                                     <div className="repo-button">
 
                                         <FiEdit id="edit-btn" onClick={() => handleIssues(key)}/>

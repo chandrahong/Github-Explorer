@@ -70,7 +70,7 @@ body{
 
     .repo{
         flex-direction: column;
-        height: 87svh;
+        height: 89svh;
         border-bottom: none;
     }
 
@@ -89,8 +89,7 @@ body{
         margin-left: 5px;
         width: 100svw;
         padding-bottom: 11px;
-        height: 100px;
-
+        height: 85px;
     }
 
 }

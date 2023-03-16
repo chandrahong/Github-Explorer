@@ -51,6 +51,8 @@ const LeftSideBar = () => {
         {labelNames && labelNames.map((key) => {
             return <a key={key.label} className="content" id={label == key.label ? 'selected' : 'unselected'} onClick={() => handleFilter(key.value)}>{key.label}</a>
         })}
+        <div className="content" id={label == 'ASC' ? 'selected' : 'unselected'} onClick={() => handleFilter(['ASC'])}> ASC</div>
+        <div className="content" id={label == 'DESC' ? 'selected' : 'unselected'} onClick={() => handleFilter(['DESC'])}> DESC</div>
     </div>
   )
 };

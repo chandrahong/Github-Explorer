@@ -184,6 +184,7 @@
     margin-left: 20px;
     margin-bottom: 5px;
     font-size: 18px;
+    font-weight: 500;
 }
 
 .selector{
@@ -217,7 +218,8 @@
 
 @media screen and (max-width:960px){
     .modal-content{
-        width:410px;
+        width:375px;
+        height: 550px;
     }
 
     .modal-backdrop{
@@ -225,18 +227,27 @@
         top: 0;
         left: 0;
         width: 100svw;
-        height: 100svh;
         padding-bottom:7px;
         padding-right: 7px;
+        overflow-y: scroll;
     }
     
     .modal-container{
+        top: 20px;
         width: 100svw;
-        height: 100svh;
-        
     }
     
     .state-select{
         margin-right: 20px;
     }
+
+    .text-area > textarea{
+        font-family: Georgia, Times, Times New Roman, serif;
+        font-size: 18px;
+        height:230px!important;
+        border-radius: 5px;
+    }
+
+    
+    
 }

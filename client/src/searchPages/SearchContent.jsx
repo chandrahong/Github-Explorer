@@ -7,7 +7,7 @@ import { select_repo } from '../redux/reducers/filterSlice';
 import { useNavigate } from 'react-router-dom';
 import SearchIssues from './SearchIssues';
 import SearchSideBar from './SearchSideBar';
-import { SelectSearchUpdatedBool, set_search_update } from '../redux/reducers/issueSlice';
+
 
 
 const SearchContent = () => {
@@ -15,11 +15,7 @@ const SearchContent = () => {
     const user = useSelector(SelectUser);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const searchUpdate = useSelector(SelectSearchUpdatedBool)
     
-    useEffect(()=> {
-        dispatch(set_search_update(false))
-    },[searchUpdate])
 
     const handleSelectRepo = (selectedOption) => {
         console.log(selectedOption)

@@ -10,9 +10,10 @@ import {AiFillGithub} from 'react-icons/ai'
 import {FaTimes} from 'react-icons/fa'
 import {TiThMenu} from 'react-icons/ti'
 import '../css/Navbar.css'
+import SearchSideBar from '../searchPages/SearchSideBar'
 
 
-const Navbar = () => {
+const Navbar = (type) => {
   const userdata = useSelector(SelectUser);
   const [rerender, setRerender] = useState(false)
   const [profilemenu, setProfileMenu] = useState(false)
@@ -78,7 +79,9 @@ const Navbar = () => {
                     </form>
                     
                   </div>
-                  <LeftSideBar />
+                  {type.type === "search" ? <SearchSideBar /> :
+                    <LeftSideBar />
+                  }
                 </div>
               }
             </div>

@@ -108,7 +108,7 @@ function CreateButton() {
             
               <Form.Group className="selector">
                 <Form.Group className="repo-select">
-                  <Modal.Title className="repo-label">Select a Repositories</Modal.Title>
+                  <Modal.Title className="repo-label">Select Repositories</Modal.Title>
                   <Select 
                   options={repositories?.map(repo => ({value: repo.html_url, label: repo.name}))} 
                   onChange={handleRepo}

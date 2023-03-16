@@ -34,14 +34,12 @@ const Search = () => {
             const username = user?.login;
             SearchIssues(query,username)
                 .then(data => {
-                    console.log(data);
                     dispatch(set_issue(data))
                 })
         }
         if(query && user && label){
           SearchIssues(query,username,label)
                 .then(data => {
-                    console.log(data);
                     dispatch(set_issue(data))
                 })
         }
@@ -80,7 +78,7 @@ const Search = () => {
   return (
     <Fragment >
       <div className='Search-Page'>
-        <Navbar />
+        <Navbar type={"search"}/>
         <SearchContent />
       </div>
     </Fragment>
