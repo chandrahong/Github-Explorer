@@ -8,8 +8,8 @@ import { selectRepo } from '../redux/reducers/filterSlice'
 import Navbar from '../components/Navbar'
 import Content from '../components/Content'
 
-const liveUrl="https://github-explorer-server.vercel.app"
-const serverUrl = "http://localhost:4000"
+const liveUrl="http://localhost:4000"
+const serverUrl = "https://github-explorer-server.vercel.app"
 const CLIENT_ID= "5cc77c808ff05db1e21a"
 const DEV_CLIENT_ID = "e759f676603de7d45d91"
 
@@ -68,7 +68,7 @@ const Login = () => {
   },[accessToken,user])
 
   function loginWithGithub(){
-    window.location.assign("https://github.com/login/oauth/authorize?client_id=" + DEV_CLIENT_ID + "&scope=public_repo%20read:user%20user:email");
+    window.location.assign("https://github.com/login/oauth/authorize?client_id=" + CLIENT_ID + "&scope=public_repo%20read:user%20user:email");
   }
 
 

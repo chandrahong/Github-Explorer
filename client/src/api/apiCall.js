@@ -1,7 +1,8 @@
 
 const accessToken = localStorage.getItem("accessToken");
-const serverUrl = 'http://localhost:4000'
-const liveUrl = 'https://github-explorer-server.vercel.app'
+const serverUrl = 'https://github-explorer-server.vercel.app'
+const liveUrl = 'http://localhost:4000'
+
 
 export const getUserData = async function (accessToken){
   console.log(accessToken);

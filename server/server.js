@@ -5,8 +5,8 @@ const fetch = (...args) =>
     import('node-fetch').then(({default : fetch}) => fetch(...args));
 var bodyParser = require('body-parser')
 
-const CLIENT_ID = process.env.DEV_CLIENT_ID;
-const CLIENT_SECRET = process.env.DEV_CLIENT_SECRET
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET
 const PORT = 4000
 const AccessPath = "https://github.com/login/oauth/access_token"
 
