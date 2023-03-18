@@ -262,7 +262,7 @@ time, mark, audio, video {
     .login{
         position :absolute;
         top: 35%;  
-        left: 7%;
+        left: 8%;
     }
     
     .mobile-navbar{
@@ -377,7 +377,6 @@ time, mark, audio, video {
    /*Home.jsx */
 
     .Home-Page{
-        width: 100svw;
         height: 100svh;
         overflow-x: hidden;
     }

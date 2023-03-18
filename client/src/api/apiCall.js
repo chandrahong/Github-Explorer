@@ -4,7 +4,6 @@ const liveUrl = 'http://localhost:4000'
 const serverUrl = 'https://github-explorer-server.vercel.app'
 
 export const getUserData = async function (accessToken){
-  console.log(accessToken);
   const response = await fetch(serverUrl + '/getUserData',{
       method:"GET",
       headers:{
@@ -13,7 +12,6 @@ export const getUserData = async function (accessToken){
       },
   })
   const data = await response.json();
-  console.log(data);
   return data;
 }
 
@@ -33,14 +31,15 @@ export const fetchRepositories = async function(username, accessToken) {
 }
 
 export const getRepoIssues = async function(parameters,pageNumber) {
-  console.log(parameters);
-  console.log(pageNumber)
   let pageParameters;
-  if(pageNumber && pageNumber > 1){
-    pageParameters = `&page=${pageNumber}&per_page=10`
-  } else {
-    pageParameters = `&page=${1}&per_page=10`
-  }
+  if(parameters){
+    if(pageNumber && pageNumber > 1){
+      pageParameters = `&page=${pageNumber}&per_page=10`
+    } else {
+      pageParameters = `&page=${1}&per_page=10`
+    }
+  } 
+
   const response = await fetch(serverUrl + '/getIssues' + parameters + pageParameters,{
     method: "GET",
     headers: {
@@ -53,64 +52,59 @@ export const getRepoIssues = async function(parameters,pageNumber) {
 }
 
 export const DeleteIssues = async function(deleteIssues){
-    await fetch(serverUrl + '/deleteIssue',{
+    const response = await fetch(serverUrl + '/deleteIssue',{
         method: "PATCH",
         headers:{
             "Authorization" : `Bearer ${accessToken}`,
             "Content-Type" : "application/json",
         },
         body: JSON.stringify(deleteIssues),
-    }).then((response) => {
-        return response.json();
-    }).then((data)=> {
-        console.log(data);
     })
+    const data = response.json();
+    return data;
 }
 
 export const UpdateIssues = async function(updateIssues, user, repoChoosen, issueNumber ){
   const params = `?owner=${user}&repo=${repoChoosen}&number=${issueNumber}`
-  await fetch(serverUrl + '/updateIssue' + params,{
+  const response = await fetch(serverUrl + '/updateIssue' + params,{
       method: "PATCH",
       headers:{
           "Authorization" : `Bearer ${accessToken}`,
           "Content-Type" : "application/json",
       },
       body: JSON.stringify(updateIssues),
-  }).then((response) => {
-      return response.json();
-  }).then((data)=> {
-      console.log(data);
   })
+
+  const data = response.json();
+  return data;
 }
 
 export const UpdateLabel = async function(label){
-  await fetch(serverUrl + '/updateIssue',{
+  const response = await fetch(serverUrl + '/updateIssue',{
       method: "PATCH",
       headers:{
           "Authorization" : `Bearer ${accessToken}`,
           "Content-Type" : "application/json",
       },
       body: JSON.stringify(label),
-  }).then((response) => {
-      return response.json();
-  }).then((data)=> {
-      console.log(data);
   })
+
+  const data = response.json();
+  return data;
 }
 
 export const SendIssues = async function (issuesData) {
-    await fetch (serverUrl + '/sendIssue',{
+    const response = await fetch (serverUrl + '/sendIssue',{
       method: "POST",
       headers: {
         "Authorization" : `Bearer ${accessToken}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify(issuesData)
-    }).then((response) => {
-      return response.json();
-    }).then((data) => {
-      console.log(data);
     })
+
+    const data = response.json();
+    return data;
 }
 
 export const SearchIssues = async function(query, username , label) {
@@ -125,7 +119,7 @@ export const SearchIssues = async function(query, username , label) {
     } else {
       params = "?query=" + query + "&author=" + username;
     }
-    console.log(params);
+
     const response = await fetch( serverUrl + '/searchIssue' + params,{
       method: "GET",
       headers: {

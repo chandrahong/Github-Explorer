@@ -1,44 +1,21 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import Select from 'react-select';
-import '../css/Content.css'
-import '../css/Loading.css'
 import { useDispatch, useSelector } from 'react-redux';
 import LeftSideBar from './LeftSideBar';
 import { SelectRepo, SelectUser, set_repo} from '../redux/reducers/userSlice';
 import { selectparamsRepo, select_repo } from '../redux/reducers/filterSlice';
+import { useNavigate} from 'react-router-dom';
+import { fetchRepositories } from '../api/apiCall';
+import Select from 'react-select';
 import CreateButton from '../content/CreateButton';
 import RepoContent from '../content/RepoContent';
-import { useNavigate } from 'react-router-dom';
-import { fetchRepositories } from '../api/apiCall';
+import '../css/Content.css'
+import '../css/Loading.css'
 
 const Content = () => {
-  const user = useSelector(SelectUser);
-  const repositories = useSelector(SelectRepo);
-  const paramsRepo = useSelector(selectparamsRepo);
-  const dispatch = useDispatch();
-  const [username , setUsername] = useState('')
-  const [passingrepo, setPassingRepo] = useState({})
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    setUsername(user?.login)
-    if(user && repositories === null){
-      fetchRepositories(username)
-        .then(data => {
-          const repoData = data.map(repo => ({ name: repo.name, html_url: repo.html_url }));
-          dispatch(set_repo(repoData));
-        })
-      }
-  },[username])
-
-  useEffect(() =>  {
-    if(paramsRepo !== null){
-      const choice = [{value : paramsRepo.html_url,label: paramsRepo.name}]
-      setPassingRepo(choice);
-      const defaultRepo = {value : paramsRepo.html_url,label: paramsRepo.name}
-      dispatch(select_repo(defaultRepo))
-    }
-  },[paramsRepo])
+  const {user, repositories, passingrepo, paramsRepo} = useParamsRepo()
 
   const handleSelectRepo = (selectedOption) => {
     console.log(selectedOption)
@@ -100,3 +77,35 @@ const Content = () => {
 }
 
 export default Content
+
+function useParamsRepo(){
+  const user = useSelector(SelectUser);
+  const repositories = useSelector(SelectRepo);
+  const paramsRepo = useSelector(selectparamsRepo);
+  const dispatch = useDispatch();
+  const [username , setUsername] = useState('')
+  const [passingrepo, setPassingRepo] = useState({})
+
+  useEffect(() => {
+    setUsername(user?.login)
+    if(user && repositories === null){
+      fetchRepositories(username)
+        .then(data => {
+          const repoData = data.map(repo => ({ name: repo.name, html_url: repo.html_url }));
+          dispatch(set_repo(repoData));
+        })
+      }
+  },[username])
+
+  useEffect(() =>  {
+    if(paramsRepo !== null){
+      const choice = [{value : paramsRepo.html_url,label: paramsRepo.name}]
+      setPassingRepo(choice);
+      const defaultRepo = {value : paramsRepo.html_url,label: paramsRepo.name}
+      dispatch(select_repo(defaultRepo))
+    }
+  },[paramsRepo])
+
+  return {passingrepo, paramsRepo, repositories, user}
+
+}

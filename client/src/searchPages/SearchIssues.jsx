@@ -19,9 +19,10 @@ const SearchContent = () => {
     const location = useLocation();
     const query = new URLSearchParams(location.search).get('q');
 
+    //For updating issue search
+    const {issue, dispatch} = useSearchUpdated();
+
     //redux-selector
-    const issue = useSelector(SelectIssue);
-    const label = useSelector(selectFilter)
     const showIssue = useSelector(SelectShowIssue);
 
     //Others 
@@ -41,8 +42,6 @@ const SearchContent = () => {
             theme: "dark",
             });
     }
-
-    const dispatch = useDispatch();
 
     const handleIssues = (issueclicked) => {
         const labelname = issueclicked.labels.map(key=>key.name);
@@ -77,15 +76,6 @@ const SearchContent = () => {
             ;
           })
     }
-
-    useEffect(()=>{
-        dispatch(set_search_update(false))
-    },[issue])
-
-    useEffect(()=>{
-        const myDiv = document.getElementById('containerDiv');
-        myDiv.scrollTop = 0;
-    },[label])
 
 
   return (
@@ -180,3 +170,20 @@ const SearchContent = () => {
 }
 
 export default SearchContent
+
+function useSearchUpdated(){
+    const issue = useSelector(SelectIssue);
+    const label = useSelector(selectFilter)
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        dispatch(set_search_update(false))
+    },[issue])
+
+    useEffect(()=>{
+        const myDiv = document.getElementById('containerDiv');
+        myDiv.scrollTop = 0;
+    },[label])
+
+    return {issue, label, dispatch}
+}

@@ -108,4 +108,10 @@
     .issue-labels{
         width:90%;
     }
+
+    .modal-dialog{
+        height: 100svh;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
 }

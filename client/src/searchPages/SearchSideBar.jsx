@@ -5,9 +5,6 @@ import '../css/LeftSideBar.css'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { selectFilter, select_filter } from '../redux/reducers/filterSlice'
 
-
-
-
 const SearchSideBar = () => {
     const dispatch = useDispatch();
     const location = useLocation();
@@ -28,7 +25,7 @@ const SearchSideBar = () => {
           
         })}
         <div className="content" id={labelHover == 'ASC' ? 'selected' : 'unselected'} onClick={() => handleFilter(['ASC'])}> ASC</div>
-          <div className="content" id={labelHover == 'DESC' ? 'selected' : 'unselected'} onClick={() => handleFilter(['DESC'])}> DESC</div>
+        <div className="content" id={labelHover == 'DESC' ? 'selected' : 'unselected'} onClick={() => handleFilter(['DESC'])}> DESC</div>
     </div>
   )
 };

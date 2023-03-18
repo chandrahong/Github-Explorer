@@ -5,7 +5,7 @@ import {Provider} from 'react-redux'
 import store from './redux/store.js'
 import Home from "./components/Home.jsx"
 import Repositories from "./components/Repositories.jsx"
-import Search from "./searchPages/Search.jsx"
+import Search from './searchPages/Search'
 
 function App() {
   return <Container>

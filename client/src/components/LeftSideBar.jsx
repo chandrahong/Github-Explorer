@@ -8,41 +8,14 @@ import { SelectUpdateBool, set_issue } from '../redux/reducers/issueSlice'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getRepoIssues } from '../api/apiCall'
 
-
-
-
 const LeftSideBar = () => {
   const dispatch = useDispatch();
-  const label = useSelector(selectFilter);
-  const selectedRepo = useSelector(selectRepo);
-  const updated = useSelector(SelectUpdateBool);
-  const user = useSelector(SelectUser);;
   const navigate = useNavigate();
-
- 
-  useEffect(() => {
-    console.log(label)
-    let parameters;
-    if(label && selectedRepo){
-      parameters = "?user=" + user.login + "&repo=" + selectedRepo.label + "&label=" + label;
-    }
-    if(selectedRepo && label === null){
-      parameters = "?user=" + user.login + "&repo=" + selectedRepo.label;
-    }
-    if(selectedRepo){
-      dispatch(select_parameters_url(parameters))
-      getRepoIssues(parameters)
-              .then(data => {
-                  dispatch(set_issue(data))
-          })
-    }
-  
-  
-  },[selectedRepo, label, updated])
+  const {user, selectedRepo, label} = useLabelFilter();
 
   function handleFilter(label){
     dispatch(select_filter(label));
-    navigate(`/${user?.login}/${selectedRepo.label}/${label}`);
+    navigate(`/${user?.login}/${selectedRepo?.label}/${label}`);
   }
 
   return (
@@ -58,3 +31,36 @@ const LeftSideBar = () => {
 };
 
 export default LeftSideBar
+
+
+function useLabelFilter(){
+    const label = useSelector(selectFilter);
+    const selectedRepo = useSelector(selectRepo);
+    const updated = useSelector(SelectUpdateBool);
+    const user = useSelector(SelectUser);
+
+    const dispatch = useDispatch();
+
+  
+    useEffect(() => {
+      let parameters;
+      if(label && selectedRepo){
+        parameters = "?user=" + user.login + "&repo=" + selectedRepo.label + "&label=" + label;
+      }
+      if(selectedRepo && label === null){
+        parameters = "?user=" + user.login + "&repo=" + selectedRepo.label;
+      }
+      if(selectedRepo){
+        dispatch(select_parameters_url(parameters))
+        getRepoIssues(parameters)
+                .then(data => {
+                    dispatch(set_issue(data))
+            })
+      }
+    
+    
+    },[selectedRepo, label, updated])
+
+    return {user, selectedRepo, label}
+
+}

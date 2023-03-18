@@ -61,11 +61,11 @@ function CreateButton() {
     };
 
     if(dataissues.title.length === 0){
-      notify()
+      notify();
     }
 
     if(dataissues.body.length <= 30){
-      bodynotify()
+      bodynotify();
     }
 
     if(titlelabel && bodylabel.length >= 30){

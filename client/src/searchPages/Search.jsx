@@ -14,7 +14,6 @@ import '../css/SearchIssues.css'
 
 const Search = () => {
     const {labelName} = useParams();
-    console.log(labelName);
     const location = useLocation()
     const query = new URLSearchParams(location.search).get('q');
     
@@ -58,7 +57,6 @@ const Search = () => {
         if(user === null && accessToken !== null ){
           getUserData(accessToken)
             .then((data) => {
-                 console.log(data)
                  dispatch(set_user(data));
                  SetUsername(data.login);
             })
@@ -68,7 +66,6 @@ const Search = () => {
             fetchRepositories(username)
               .then((data) => {
                 const repoData = data.map(repo => ({name: repo.name, html_url: repo.html_url}));
-                console.log(repoData);
                 dispatch(set_repo(repoData));
               })
           }

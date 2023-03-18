@@ -18,14 +18,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const RepoContent = () => {
     const parameters = useSelector(selectparamaterUrl)
-    const label = useSelector(selectFilter)
-    const updated = useSelector(SelectUpdateBool);
     const repoName = useSelector(selectRepo);
-    const issueData = useSelector(SelectIssue);
     const showIssue = useSelector(SelectShowIssue);
 
     const [deletePop, setDeletePop] = useState(false);
-    const [pageNumber, setPageNumber] = useState(1);
 
     const deletednotify = () => {
         toast.success('Issue Deleted!', {
@@ -41,13 +37,11 @@ const RepoContent = () => {
         setDeletePop(null)
     }
 
+    const {issueData, pageNumber, label, setPageNumber} = useUpdated();
+
+    //passing props
     const editType = "repositories"
-    
-    useEffect(()=> {
-        setPageNumber(1)
-        var myDiv = document.getElementById('containerDiv');
-        myDiv.scrollTop = 0;
-    },[label])
+
 
     const { loader , hasMore } = useInfiniteScroll(parameters, pageNumber);
 
@@ -66,15 +60,7 @@ const RepoContent = () => {
         if(node) observer.current.observe(node);
         console.log(node)
     },[loader , hasMore]);
-
-
-    useEffect(()=> {
-        if(updated){
-            dispatch(set_updated(false));
-        }
-    },[issueData])
-
-    
+ 
 
     const dispatch = useDispatch();
     const handleIssues = (issueclicked) => {
@@ -240,3 +226,28 @@ const RepoContent = () => {
 }
 
 export default RepoContent
+
+function useUpdated(){
+    //useState PageNumber
+    const [pageNumber, setPageNumber] = useState(1);
+
+    //redux
+    const label = useSelector(selectFilter)
+    const updated = useSelector(SelectUpdateBool);
+    const issueData = useSelector(SelectIssue);
+    const dispatch = useDispatch();
+
+    useEffect(()=> {
+        setPageNumber(1)
+        var myDiv = document.getElementById('containerDiv');
+        myDiv.scrollTop = 0;
+    },[label])
+
+    useEffect(()=> {
+        if(updated){
+            dispatch(set_updated(false));
+        }
+    },[issueData])
+
+    return {issueData, pageNumber, label, setPageNumber}
+}

@@ -79,7 +79,6 @@ body{
     }
 
     .repo-container{
-        width: 100svw;
         height: 72svh;
         margin: 0px;
     }
@@ -87,7 +86,7 @@ body{
     
    .sidebar{
         margin-left: 5px;
-        width: 100svw;
+        width: 100%;
         padding-bottom: 11px;
         height: 85px;
     }

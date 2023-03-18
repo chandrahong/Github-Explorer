@@ -1,31 +1,24 @@
 import React, {useState, Fragment, useEffect, useRef} from 'react'
 import { Button, Modal, Form } from 'react-bootstrap';
 import {IoMdClose} from 'react-icons/io'
-import Select from 'react-select';
-import labelNames from '../variables/Label';
-import '../css/EditIssue.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { SelectClickedIssue, SelectShowIssue, show_issueClick, SelectLabelValue, set_updated, set_search_update} from '../redux/reducers/issueSlice';
 import { UpdateIssues } from '../api/apiCall';
-import {ToastContainer, toast} from 'react-toastify'
+import {toast} from 'react-toastify'
+import Select from 'react-select';
+import labelNames from '../variables/Label';
 import 'react-toastify/dist/ReactToastify.css';
+import '../css/EditIssue.css'
 
-const EditIssue = (edit) => {
-    //redux selector
-    const issue = useSelector(SelectClickedIssue);
+const EditIssue = ({edit}) => {
+    //redux 
     const showIssue = useSelector(SelectShowIssue);
-    const labelValue = useSelector(SelectLabelValue);
-
-    //useRef
-    const titleRef = useRef(null);
-    const textareaRef = useRef(null);
-
     const dispatch = useDispatch();
-
-    const [selectedChoice, setSelectedChoice] = useState({})
+    
     const [editBody, setEditBody] = useState('')
     const [editTitle, setEditTitle] = useState('')
-    const choice = [{value : [labelValue[0]],label: labelValue[0]}]
+
+    const {titleRef, textareaRef, selectedChoice, issue, labelValue, setSelectedChoice} = usePassingEditData()
 
     //Notify when updated
     const updatenotify = () => {
@@ -41,21 +34,12 @@ const EditIssue = (edit) => {
         });
     }
 
-    
-    useEffect(() => {
-      if(issue){
-        setSelectedChoice(choice)
-        titleRef.current.value = issue.title;
-        textareaRef.current.value = issue.body;
-      }
-    },[issue])
 
     const handleClose = () => {
         dispatch(show_issueClick(false));
     };
     
     const handleLabel = (selectedLabel) =>{
-        console.log(selectedLabel)
         setSelectedChoice(selectedLabel)
     }
 
@@ -117,9 +101,8 @@ const EditIssue = (edit) => {
             }
           }
         }
-
         
-        if(edit.edit === "repositories"){
+        if(edit === "repositories"){
           dispatch(set_updated(true))
         }else{
           dispatch(set_search_update(true))
@@ -198,3 +181,26 @@ const EditIssue = (edit) => {
 }
 
 export default EditIssue
+
+function usePassingEditData(){
+  //redux
+  const labelValue = useSelector(SelectLabelValue);
+  const issue = useSelector(SelectClickedIssue);
+
+  //useRef for  title and body 
+  const titleRef = useRef(null);
+  const textareaRef = useRef(null);
+
+  const [selectedChoice, setSelectedChoice] = useState({})
+  const choice = [{value : [labelValue[0]],label: labelValue[0]}]
+
+  useEffect(() => {
+    if(issue){
+      setSelectedChoice(choice)
+      titleRef.current.value = issue.title;
+      textareaRef.current.value = issue.body;
+    }
+  },[issue])
+
+  return {titleRef, textareaRef, selectedChoice, issue, labelValue, setSelectedChoice}
+}

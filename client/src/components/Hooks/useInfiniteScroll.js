@@ -13,13 +13,12 @@ export default function useInfiniteScroll(parameters, pageNumber){
 
     useEffect(() => {
         setIssueArray([])
-    },[label])
+    },[parameters, label])
 
     useEffect(() => {
-        console.log(parameters)
-        console.log("hey" + pageNumber)
         setLoader(true)
-        getRepoIssues(parameters, pageNumber)
+        if(parameters){
+            getRepoIssues(parameters, pageNumber)
             .then(data => {
                 console.log(data)
                 setIssueArray(prevData => {
@@ -31,6 +30,7 @@ export default function useInfiniteScroll(parameters, pageNumber){
             })
         
         dispatch(set_issue(issueArray))
+        }
     },[parameters, pageNumber])
 
     return { loader, hasMore }

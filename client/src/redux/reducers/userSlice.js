@@ -5,7 +5,6 @@ export const userSlice = createSlice({
     initialState: {
         user: null,
         repo: null,
-        token: null,
     },
     reducers: {
         set_user : (state, action) => {

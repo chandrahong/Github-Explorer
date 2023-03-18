@@ -8,54 +8,28 @@ import { set_user, set_repo } from '../redux/reducers/userSlice';
 import { select_filter, select_params_repo} from '../redux/reducers/filterSlice';
 import { fetchRepositories, getUserData } from '../api/apiCall';
 import { SelectUpdateBool } from '../redux/reducers/issueSlice';
+import useUserApiData from './Hooks/useUserApiData';
 
 
 const Repositories = () => {
     const {repoName , labelName} = useParams();
-    const accessToken = localStorage.getItem("accessToken");
-
     //redux selector
     const updated = useSelector(SelectUpdateBool);
-    const user = useSelector(SelectUser);
-    const repo = useSelector(SelectRepo);
 
-    //react useState
-    const [username, SetUsername] = useState();
-    
-    
+    //getting UserData from custom hooks
+    const {repo} = useUserApiData();
+
     const dispatch = useDispatch();
-    const history = useNavigate();
-
+  
     useEffect(() => {
-        if(accessToken === null){
-          history('/')
-        }
-        if(user === null && accessToken !== null ){
-            getUserData(accessToken)
-              .then(data => {
-                dispatch(set_user(data));
-                SetUsername(data.login);
-              })
+      if(repo !== null){
+          if(labelName){
+            dispatch(select_filter([labelName]))
           }
-    
-          if(user && repo == null && accessToken){
-              fetchRepositories(username)
-                .then((data) => {
-                const repoData = data.map(repo => ({name: repo.name, html_url: repo.html_url}));
-                dispatch(set_repo(repoData));
-              })
-          }
-      },[accessToken, username])
-      
-      useEffect(() => {
-        if(repo !== null){
-            if(labelName){
-              dispatch(select_filter([labelName]))
-            }
-            const finder = repo.find(key => key.name === repoName)
-            dispatch(select_params_repo(finder));
-        }
-      },[repo, labelName, updated])
+          const finder = repo.find(key => key.name === repoName)
+          dispatch(select_params_repo(finder));
+      }
+    },[repo, labelName, updated])
 
   return (
     <Fragment>

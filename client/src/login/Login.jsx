@@ -14,18 +14,55 @@ const CLIENT_ID= "5cc77c808ff05db1e21a"
 const DEV_CLIENT_ID = "e759f676603de7d45d91"
 
 const Login = () => {
+  const history = useNavigate();
+
+  //Login after getting userData
+  const {user, accessToken} = useLogin();
+
+  function loginWithGithub(){
+    window.location.assign("https://github.com/login/oauth/authorize?client_id=" + CLIENT_ID + "&scope=public_repo%20read:user%20user:email");
+  }
+
+
+  return (
+    <Fragment>
+              {user && accessToken ?
+                history('/home')
+              : 
+              <Fragment>
+                <Navbar />
+                <Content />
+                <div className="login-background">
+                  <div className="login">
+                    <div className="login-container">
+                      <h1>Login with Authorization</h1>
+                      <button type="button" id="github-login" onClick={loginWithGithub}>Log In with Github</button>
+                    </div>
+                  </div>
+                </div>
+                  
+      
+              </Fragment>
+              }
+       
+    </Fragment>
+  )
+}
+
+export default Login;
+
+function useLogin(){
   const dispatch = useDispatch();
   const user = useSelector(SelectUser);
   const repo = useSelector(selectRepo)
   const accessToken = localStorage.getItem("accessToken");
   const [rerender, setRerender] = useState(false);
-  const history = useNavigate();
 
 
   useEffect(() =>{
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const codeParam = urlParams.get("code");
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const codeParam = urlParams.get("code");
 
     if(codeParam && (accessToken === null)){
       async function getAccessToken(){
@@ -67,34 +104,5 @@ const Login = () => {
       }
   },[accessToken,user])
 
-  function loginWithGithub(){
-    window.location.assign("https://github.com/login/oauth/authorize?client_id=" + CLIENT_ID + "&scope=public_repo%20read:user%20user:email");
-  }
-
-
-  return (
-    <Fragment>
-              {user && localStorage.getItem("accessToken")?
-                history('/home')
-              : 
-              <Fragment>
-                <Navbar />
-                <Content />
-                <div className="login-background">
-                  <div className="login">
-                    <div className="login-container">
-                      <h1>Login with Authorization</h1>
-                      <button type="button" id="github-login" onClick={loginWithGithub}>Log In with Github</button>
-                    </div>
-                  </div>
-                </div>
-                  
-      
-              </Fragment>
-              }
-       
-    </Fragment>
-  )
+  return {user, accessToken}
 }
-
-export default Login;
