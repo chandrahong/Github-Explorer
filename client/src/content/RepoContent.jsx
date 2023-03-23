@@ -7,7 +7,8 @@ import Card from 'react-bootstrap/Card';
 import {SelectIssue, SelectShowIssue, set_issueClick, show_issueClick , set_labelValue, set_updated, SelectUpdateBool} from '../redux/reducers/issueSlice';
 import {FiEdit} from 'react-icons/fi'
 import {AiOutlineDelete} from 'react-icons/ai'
-import {FaCheck, FaTimes} from 'react-icons/fa'
+import {FaCheck} from 'react-icons/fa'
+import {FaTimes} from 'react-icons/fa'
 import {GoLogoGithub} from 'react-icons/go'
 import EditIssue from './EditIssue';
 import { DeleteIssues } from '../api/apiCall.js';
@@ -21,7 +22,7 @@ const RepoContent = () => {
     const repoName = useSelector(selectRepo);
     const showIssue = useSelector(SelectShowIssue);
 
-    const [deletePop, setDeletePop] = useState(false);
+    const [deletePop, setDeletePop] = useState([]);
 
     const deletednotify = () => {
         toast.success('Issue Deleted!', {
@@ -58,8 +59,7 @@ const RepoContent = () => {
             }
         });
         if(node) observer.current.observe(node);
-        console.log(node)
-    },[loader , hasMore]);
+    },[loader , hasMore, label]);
  
 
     const dispatch = useDispatch();
@@ -76,6 +76,7 @@ const RepoContent = () => {
     }
 
     const handleDelete = (issue) => {
+        console.log(issue)
         const issueNumber = issue.number;
         const user = issue.user?.login;
         const repoChoosen = repoName?.label;
@@ -89,8 +90,11 @@ const RepoContent = () => {
         DeleteIssues(delIssues)
           .then(data => {
             console.log(data);
-            deletednotify()
-            setTimeout(() => {window.location.reload()},2000);
+            deletednotify();
+            setDeletePop([]);
+            setTimeout(()=> {
+                window.location.reload();
+            },2000)
           })
         
     }
@@ -123,7 +127,7 @@ const RepoContent = () => {
             <div className="repo-format">
                 <h1 id="link-format">Link</h1>
                 <h1 id="id-format">ID</h1>
-                <h1 id="content-format">Issue Count = {issueData?.length}</h1>
+                <h1 id="content-format">Total Issue {issueData?.length}</h1>
                 <h1 id="labels-format">Label</h1>
             </div>
         </div>
@@ -134,6 +138,18 @@ const RepoContent = () => {
             <div>
                  <EditIssue edit={editType}/> 
             </div>
+            }
+
+            {deletePop?.length !== 0 &&
+                                            <div className="delete-pop">
+                                                <div className="delete-pop-container" onMouseLeave={()=>setDeletePop([])}>
+                                                    <h1> Delete Issue {deletePop?.number}? </h1>
+                                                    <div className="delete-pop-btn">
+                                                        <FaCheck id="delete-check" onClick={() => handleDelete(deletePop)}/>
+                                                        <FaTimes id="delete-times" onClick={() => setDeletePop([])}/>
+                                                    </div>
+                                                </div>
+                                            </div>
             }
      
             {issueData && (issueData.map((key,index) => {
@@ -160,19 +176,8 @@ const RepoContent = () => {
                                     <h1 onClick={()=>handleIssues(key)}>{key?.labels.map(key=>key.name)}</h1>
                                     <div className="repo-button">
                                         <FiEdit id="edit-btn" onClick={() => handleIssues(key)}/>
-                                        <AiOutlineDelete id="delete-btn" onClick={() => setDeletePop(key.number)}/>
+                                        <AiOutlineDelete id="delete-btn" onClick={() => setDeletePop(key)}/>
                                     </div>
-                                    {deletePop === key.number &&
-                                        <div className="delete-pop">
-                                            <div className="delete-pop-container" onMouseLeave={()=>setDeletePop(null)}>
-                                                <h1> Delete Issue ? </h1>
-                                                <div className="delete-pop-btn">
-                                                    <FaCheck id="delete-check" onClick={() => handleDelete(key)}/>
-                                                    <FaTimes id="delete-times" onClick={() => setDeletePop(null)}/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
                             </Card.Footer>
                         </Card>
                     </div>)
@@ -199,19 +204,8 @@ const RepoContent = () => {
                                         <h1 onClick={()=>handleIssues(key)}>{key?.labels.map(key=>key.name)}</h1>
                                         <div className="repo-button">
                                             <FiEdit id="edit-btn" onClick={() => handleIssues(key)}/>
-                                            <AiOutlineDelete id="delete-btn" onClick={() => setDeletePop(key.number)}/>
+                                            <AiOutlineDelete id="delete-btn" onClick={() => setDeletePop(key)}/>
                                         </div>
-                                        {deletePop === key.number &&
-                                            <div className="delete-pop">
-                                                <div className="delete-pop-container" onMouseLeave={()=>setDeletePop(null)}>
-                                                    <h1> Delete Issue ? </h1>
-                                                    <div className="delete-pop-btn">
-                                                        <FaCheck id="delete-check" onClick={() => handleDelete(key)}/>
-                                                        <FaTimes id="delete-times" onClick={() => setDeletePop(null)}/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        }
                                 </Card.Footer>
                             </Card>
                         </div>)
@@ -230,6 +224,7 @@ export default RepoContent
 function useUpdated(){
     //useState PageNumber
     const [pageNumber, setPageNumber] = useState(1);
+    const parameters = useSelector(selectparamaterUrl)
 
     //redux
     const label = useSelector(selectFilter)
@@ -241,7 +236,7 @@ function useUpdated(){
         setPageNumber(1)
         var myDiv = document.getElementById('containerDiv');
         myDiv.scrollTop = 0;
-    },[label])
+    },[label, parameters])
 
     useEffect(()=> {
         if(updated){

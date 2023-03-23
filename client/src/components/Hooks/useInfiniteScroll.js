@@ -20,11 +20,9 @@ export default function useInfiniteScroll(parameters, pageNumber){
         if(parameters){
             getRepoIssues(parameters, pageNumber)
             .then(data => {
-                console.log(data)
                 setIssueArray(prevData => {
                     return [...prevData , ...data]
                 })
-                console.log(issueArray)
                 setHasMore(data.length > 0)
                 setLoader(false)
             })

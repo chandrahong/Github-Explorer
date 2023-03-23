@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 import { SelectUser } from '../redux/reducers/userSlice'
 import LeftSideBar from './LeftSideBar'
 import {AiOutlineCloseCircle} from 'react-icons/ai'
-import {AiOutlineMenu} from 'react-icons/ai'
 import {HiSearch} from 'react-icons/hi'
 import {AiFillGithub} from 'react-icons/ai'
 import {FaTimes} from 'react-icons/fa'
@@ -74,7 +73,7 @@ const Navbar = (type) => {
                 <div className="filter-container" onMouseLeave={handleMenuLeave}>
                   <div className="search-filter">
                     <form className='form-search' action={`/search/?q=${query}`} method="GET" onSubmit={handleSubmit}>
-                      <input id="search-box"type="text" placeholder="Search or jump to..." onChange={(e) => setQuery(e.target.value)}/>
+                      <input id="search-box"type="text" placeholder="Search or jump to..." onChange={(e) => setQuery(e.target.value)} />
                       <button type="submit" className="search-btn"><HiSearch  id="search-hi"/></button>
                     </form>
                     

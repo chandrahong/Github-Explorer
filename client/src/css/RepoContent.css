@@ -180,26 +180,25 @@
 }
 
 .delete-pop{
-    opacity: 100%;
     position: absolute;
     z-index:1;
-    margin-top :30px;
-    margin-right: 70px;
-    width: 120px;
+    top: 42%;
+    right: 37%;
+    width: 250px;
 }
 
 .delete-pop-container{
     display:flex;
-    opacity: 100%;
     flex-direction: column;
     background-color: white;
-    align-items: center;
+    justify-content: center;
+    align-items: center ;
     color: black;
-    width:100%;
-    padding: 20px;
+    padding: 40px;
     border: 1px solid black;
-    border-radius:5px;
+    border-radius:15px;
     cursor:default;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .delete-pop-btn{
@@ -290,5 +289,9 @@
         background-color: white !important;
         color: black !important;
         cursor: pointer;
+    }
+
+    .delete-pop{
+        right: 10%;
     }
 }

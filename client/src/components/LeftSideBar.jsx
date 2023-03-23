@@ -1,4 +1,4 @@
-import React , { useEffect , useRef, useState, useCallback} from 'react'
+import React , { useEffect ,Fragment, useState} from 'react'
 import labelNames from '../variables/Label'
 import { useDispatch, useSelector } from 'react-redux'
 import {selectFilter, selectRepo, select_filter, select_parameters_url} from '../redux/reducers/filterSlice'
@@ -11,22 +11,40 @@ import { getRepoIssues } from '../api/apiCall'
 const LeftSideBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const [popUp, setPopUp] = useState(false)
   const {user, selectedRepo, label} = useLabelFilter();
 
-  function handleFilter(label){
-    dispatch(select_filter(label));
-    navigate(`/${user?.login}/${selectedRepo?.label}/${label}`);
+  function handleFilter(labelname){
+    dispatch(select_filter(labelname));
+    if(selectedRepo === null){
+      //home.jsx if you are not selecting a repo
+      setPopUp(true)
+    }else{
+      // condition when u click the same label
+      if(label && labelname == label[0]){
+        window.location.reload();
+      }
+      navigate(`/${user?.login}/${selectedRepo?.label}/${labelname}`);
+    }
+
   }
 
   return (
-    <div className="left-side-container">
-        <div className="content" id={label == 'ALL' ? 'selected' : 'unselected'} onClick={() => handleFilter(['ALL'])}> ALL </div>
-        {labelNames && labelNames.map((key) => {
-            return <a key={key.label} className="content" id={label == key.label ? 'selected' : 'unselected'} onClick={() => handleFilter(key.value)}>{key.label}</a>
-        })}
-        <div className="content" id={label == 'ASC' ? 'selected' : 'unselected'} onClick={() => handleFilter(['ASC'])}> ASC</div>
-        <div className="content" id={label == 'DESC' ? 'selected' : 'unselected'} onClick={() => handleFilter(['DESC'])}> DESC</div>
-    </div>
+    <Fragment>
+      {popUp &&<div className="unselected-popup">
+          <h1>Select a Repositories</h1>
+      </div>
+      }
+      <div className="left-side-container">
+          <div className="content" id={label == 'ALL' ? 'selected' : 'unselected'} onClick={() => handleFilter(['ALL'])}> ALL </div>
+          {labelNames && labelNames.map((key) => {
+              return <a key={key.label} className="content" id={label == key.label ? 'selected' : 'unselected'} onClick={() => handleFilter(key.value)}>{key.label}</a>
+          })}
+          <div className="content" id={label == 'ASC' ? 'selected' : 'unselected'} onClick={() => handleFilter(['ASC'])}> ASC</div>
+          <div className="content" id={label == 'DESC' ? 'selected' : 'unselected'} onClick={() => handleFilter(['DESC'])}> DESC</div>
+      </div>
+    </Fragment>
   )
 };
 

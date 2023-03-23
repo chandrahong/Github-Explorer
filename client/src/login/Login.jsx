@@ -14,7 +14,6 @@ const CLIENT_ID= "5cc77c808ff05db1e21a"
 const DEV_CLIENT_ID = "e759f676603de7d45d91"
 
 const Login = () => {
-  const history = useNavigate();
 
   //Login after getting userData
   const {user, accessToken} = useLogin();
@@ -27,7 +26,7 @@ const Login = () => {
   return (
     <Fragment>
               {user && accessToken ?
-                history('/home')
+                <h1>Logging In...</h1>
               : 
               <Fragment>
                 <Navbar />
@@ -57,6 +56,7 @@ function useLogin(){
   const repo = useSelector(selectRepo)
   const accessToken = localStorage.getItem("accessToken");
   const [rerender, setRerender] = useState(false);
+  const history = useNavigate();
 
 
   useEffect(() =>{
@@ -98,8 +98,8 @@ function useLogin(){
         fetchRepositories(username, accessToken)
           .then((data) => {
             const repoData = data.map(repo => ({name: repo.name, html_url: repo.html_url}));
-            console.log(repoData);
             dispatch(set_repo(repoData));
+            history('/home')
           })
       }
   },[accessToken,user])
