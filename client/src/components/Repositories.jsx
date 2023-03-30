@@ -1,6 +1,6 @@
 import React , {Fragment, useEffect, useState}from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { select_filter, select_params_repo} from '../redux/reducers/filterSlice';
+import { selectFilter, select_filter, select_params_repo} from '../redux/reducers/filterSlice';
 import { SelectUpdateBool } from '../redux/reducers/issueSlice';
 import { useParams } from 'react-router-dom';
 import useUserApiData from './Hooks/useUserApiData';
@@ -12,15 +12,14 @@ const Repositories = () => {
     const {repoName , labelName} = useParams();
     //redux selector
     const updated = useSelector(SelectUpdateBool);
-
+    const labelfilter = useSelector(selectFilter) ;
     //getting UserData from custom hooks
     const {repo} = useUserApiData();
 
     const dispatch = useDispatch();
-  
     useEffect(() => {
       if(repo !== null){
-          if(labelName){
+          if(labelName && labelfilter === null){
             dispatch(select_filter([labelName]))
           }
           const finder = repo.find(key => key.name === repoName)

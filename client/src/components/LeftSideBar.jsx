@@ -22,10 +22,8 @@ const LeftSideBar = () => {
       setPopUp(true)
     }else{
       // condition when u click the same label
-      if(label && labelname == label[0]){
-        window.location.reload();
-      }
       navigate(`/${user?.login}/${selectedRepo?.label}/${labelname}`);
+      window.location.reload();
     }
 
   }

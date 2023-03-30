@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import '../css/SearchIssues.css'
 import '../css/Loading.css'
 import Card from 'react-bootstrap/Card';
-import {SelectShowIssue, set_issueClick, show_issueClick , set_labelValue, SelectIssue, set_search_update} from '../redux/reducers/issueSlice';
+import {SelectShowIssue, set_issueClick, show_issueClick , set_labelValue, SelectIssue, set_search_update, SelectSearchUpdatedBool} from '../redux/reducers/issueSlice';
 import {FiEdit} from 'react-icons/fi'
 import {AiOutlineDelete} from 'react-icons/ai'
 import {FaCheck, FaTimes} from 'react-icons/fa'
@@ -173,11 +173,14 @@ export default SearchContent
 
 function useSearchUpdated(){
     const issue = useSelector(SelectIssue);
-    const label = useSelector(selectFilter)
+    const label = useSelector(selectFilter);
+    const searchupdated = useSelector(SelectSearchUpdatedBool)
     const dispatch = useDispatch();
 
     useEffect(()=>{
-        dispatch(set_search_update(false))
+        if(searchupdated){
+            dispatch(set_search_update(false))
+        }
     },[issue])
 
     useEffect(()=>{

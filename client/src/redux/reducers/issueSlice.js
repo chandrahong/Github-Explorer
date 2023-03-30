@@ -15,6 +15,9 @@ export const issueSlice = createSlice({
         set_issue: (state, action) =>{
             state.issueData = action.payload
         },
+        combine_issue: (state, action) => {
+            state.issueData = state.issueData.concat(action.payload)
+        },
         set_labelValue:(state, action) => {
             state.labelClicked= action.payload
         },
@@ -36,7 +39,7 @@ export const issueSlice = createSlice({
     }
 });
 
-export const {set_issue, set_issueClick, show_issueClick, set_labelValue, set_searchRepoName, set_updated, set_search_update} = issueSlice.actions;
+export const {set_issue, set_issueClick, show_issueClick, set_labelValue, set_searchRepoName, set_updated, set_search_update, combine_issue} = issueSlice.actions;
 
 export const SelectIssue = (state) => state.issue.issueData;
 export const SelectClickedIssue = (state) => state.issue.issueClicked;
