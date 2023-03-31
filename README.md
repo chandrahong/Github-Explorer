@@ -1,6 +1,6 @@
 # Github Explorer
 
-View the website [here](github-explorer-chandrahong.vercel.app/)
+View the website [here](https://github-explorer-chandrahong.vercel.app/home)
 
 This project is a Github-Issue web-app. 
 
