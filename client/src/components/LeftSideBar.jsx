@@ -5,7 +5,7 @@ import {selectFilter, selectRepo, select_filter, select_parameters_url} from '..
 import { SelectUser } from '../redux/reducers/userSlice'
 import '../css/LeftSideBar.css'
 import { SelectUpdateBool, set_issue } from '../redux/reducers/issueSlice'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { getRepoIssues } from '../api/apiCall'
 
 const LeftSideBar = () => {
@@ -37,7 +37,7 @@ const LeftSideBar = () => {
       <div className="left-side-container">
           <div className="content" id={label == 'ALL' ? 'selected' : 'unselected'} onClick={() => handleFilter(['ALL'])}> ALL </div>
           {labelNames && labelNames.map((key) => {
-              return <a key={key.label} className="content" id={label == key.label ? 'selected' : 'unselected'} onClick={() => handleFilter(key.value)}>{key.label}</a>
+              return <div key={key.label} className="content" id={label == key.label ? 'selected' : 'unselected'} onClick={() => handleFilter(key.value)}>{key.label}</div>
           })}
           <div className="content" id={label == 'ASC' ? 'selected' : 'unselected'} onClick={() => handleFilter(['ASC'])}> ASC</div>
           <div className="content" id={label == 'DESC' ? 'selected' : 'unselected'} onClick={() => handleFilter(['DESC'])}> DESC</div>
