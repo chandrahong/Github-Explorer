@@ -18,16 +18,19 @@ Javascript, CSS, React, Redux, Boostrap, Github API.
 2. In server folder add new .env file . This file should include your client_id, and client_secret
 
 CLIENT_ID= 
+
 CLIENT_SECRET= 
 
 3. Run in command prompt / terminal 
 
 cd server
+
 npm start / yarn start
 
 4. Open another command prompt / terminal
 
 cd client
+
 npm start / yarn start
 
 ### Website Page
