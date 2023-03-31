@@ -10,7 +10,17 @@ There are some features such as :
 
 ## Tools and Programming Languages
 
+#### Client : 
+
 Javascript, CSS, React, Redux, Boostrap, Github API.
+
+#### Server :
+
+Express
+
+#### Deployment :
+
+Vercel
 
 ## Running project on Local
 
